@@ -1,10 +1,10 @@
 <?php
 /**
- * Zend Expressive OAuth2 (http://framework.zend.com/)
+ * Zend Expressive OAuth2 PDO Mapper
  *
- * @see       https://github.com/jguittard/zend-expressive-oauth2 for the canonical source repository
+ * @see       https://github.com/jguittard/zend-expressive-oauth2-pdo for the canonical source repository
  * @copyright Copyright (c) 2015-2017 Julien Guittard. (https://julienguittard.com)
- * @license   https://github.com/jguittard/zend-expressive-oauth2/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/jguittard/zend-expressive-oauth2-do/blob/master/LICENSE.md New BSD License
  */
 
 namespace Zend\Expressive\OAuth2\Mapper\Pdo;
@@ -32,6 +32,18 @@ class PdoMapper implements MapperInterface
     protected $identifierName;
 
     /**
+     * PdoMapper constructor.
+     *
+     * @param TableGateway $table
+     * @param string $identifierName
+     */
+    public function __construct(TableGateway $table, $identifierName)
+    {
+        $this->table = $table;
+        $this->identifierName = $identifierName;
+    }
+
+    /**
      * @return \Zend\Db\ResultSet\ResultSet
      */
     public function findAll()
@@ -41,7 +53,7 @@ class PdoMapper implements MapperInterface
 
     /**
      * @param array $params
-     * @return \Zend\Db\ResultSet\ResultSet
+     * @return array|Traversable
      */
     public function findAllBy(array $params)
     {
@@ -50,7 +62,7 @@ class PdoMapper implements MapperInterface
 
     /**
      * @param string|integer $id
-     * @return \ArrayObject|boolean
+     * @return object|boolean
      */
     public function findOne($id)
     {
@@ -59,7 +71,7 @@ class PdoMapper implements MapperInterface
 
     /**
      * @param array $params
-     * @return array|\ArrayObject|bool
+     * @return object|bool
      */
     public function findOneBy(array $params)
     {
@@ -69,7 +81,7 @@ class PdoMapper implements MapperInterface
 
     /**
      * @param array|Traversable $data
-     * @return array|\ArrayObject|bool
+     * @return object|bool
      */
     public function create($data)
     {
@@ -82,7 +94,7 @@ class PdoMapper implements MapperInterface
     /**
      * @param int|string $id
      * @param array|Traversable $data
-     * @return \ArrayObject|bool
+     * @return object|bool
      */
     public function update($id, $data)
     {
@@ -92,7 +104,7 @@ class PdoMapper implements MapperInterface
 
     /**
      * @param string|integer $id
-     * @return boolean
+     * @return bool
      */
     public function delete($id)
     {
